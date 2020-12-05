@@ -1,8 +1,6 @@
 .main {
   max-width: 1100px;
   margin: 0 auto;
-  margin-top: 50px;
-  padding: 25px;
 }
 
 .title {
@@ -31,7 +29,7 @@
   left: 15px;
 }
 
-.searchInput {
+.searchInput, .modalInput, .modalInputTextArea {
   padding: 10px 10px 10px 50px;
   margin-right: 20px;
   width: 403px;
@@ -70,7 +68,7 @@ color: #B1ADB9;
   color: #170C3A;
 }
 
-.addButton {
+.addButton, .saveButton, .cancelButton {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -86,11 +84,11 @@ color: #B1ADB9;
   border: none;
 }
 
-.addButton:hover {
+.addButton:hover, .saveButton:hover {
   background: #2F55CC 0% 0% no-repeat padding-box;
 }
 
-.addButton:active {
+.addButton:active, .saveButton:active {
   background: #244AA8 0% 0% no-repeat padding-box;
 }
 
@@ -100,4 +98,154 @@ color: #B1ADB9;
   font: normal normal 600 18px/24px Source Sans Pro;
   letter-spacing: 0.36px;
   width: 80px
+}
+
+.noPosts {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.notFound {
+  margin-top: 50px;
+}
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  background-color: #170C3AE6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeModal {
+  cursor: pointer;
+}
+
+.modalBody {
+  background-color: white;
+  width: 600px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 20px 25px #0000001A;
+  border-radius: 5px;
+  padding: 30px;
+}
+
+
+.modalContent {
+  padding: 20px 50px;
+}
+
+.modalLabel { 
+  display: block;
+  color: #8F8A9B;
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+
+.modalInput, .modalInputTextArea {
+  padding-left: 20px;
+  width: 100%;
+}
+.modalFooter {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.cancelButton {
+  width: 122px;
+  height: 50px;
+  background: #E1E7FD 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  justify-content: center;
+  color: #365DF0;
+  font: normal normal 600 18px/24px Source Sans Pro;
+}
+
+.cancelButton:hover  {
+  background: #CAD6FC 0% 0% no-repeat padding-box;
+}
+
+.cancelButton:active {
+  background: #B9C6FA 0% 0% no-repeat padding-box;
+}
+
+.saveButton {
+  width: 122px;
+  height: 50px;
+  color: white;
+  justify-content: center;
+  margin-right: 0;
+  font: normal normal 600 18px/24px Source Sans Pro;
+}
+
+.modalInputTextArea {
+  resize: none;
+  min-height: 120px;
+}
+
+.addTags {
+  position: relative;
+}
+
+.addTag {
+  fill: none; 
+  stroke: #8F8A9B;
+  stroke-miterlimit: 10;
+  stroke-width: 10px; 
+  transform: rotate(45deg);
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  transition: 0.2s ease-in-out;
+}
+
+.addTag:hover {
+  stroke: #5a5959;
+  cursor: pointer;
+}
+
+.tagsContainer {
+  display: flex;
+  margin-top: 15px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 2px;
+  margin-right: 10px;
+  background-color: #e2e2e2;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.removeTag {
+  margin-left: 10px;
+}
+
+.tag:hover {
+  background-color: #d3d3d3;
 }
