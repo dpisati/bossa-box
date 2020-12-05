@@ -38,8 +38,12 @@ export default function Home() {
   }
 
   function handleAddTag() {
-    setTags([...tags, tag])
-    setTag('');
+    const trimTag = tag.trim()
+      if(trimTag) {
+      setTags([...tags, trimTag])
+      setTag('');
+    }
+    return;
   }
 
   const handleOnChange = (event) => {
