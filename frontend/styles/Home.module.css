@@ -226,6 +226,8 @@ color: #B1ADB9;
 .tagsContainer {
   display: flex;
   margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .tag {
@@ -235,7 +237,6 @@ color: #B1ADB9;
   padding-left: 12px;
   padding-right: 12px;
   padding-bottom: 2px;
-  margin-right: 10px;
   background-color: #e2e2e2;
   border-radius: 15px;
   cursor: pointer;
