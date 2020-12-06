@@ -63,6 +63,9 @@ export default function Home() {
 
   function handleCloseModal() {
     setAddModal(false);
+    setName('');
+    setDescription('');
+    setLink('');
     setTags([]);
   }
 
@@ -144,7 +147,9 @@ export default function Home() {
                   <label className={styles.modalLabel}>Tags</label>
                   <div className={styles.addTags}>
                     <input className={styles.modalInput} type="text" value={tag} onChange={(e) => {setTag(e.target.value)}}/>
-                    <svg onClick={() => handleAddTag()} className={styles.addTag} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.414 61.42"><g transform="translate(-568.793 -714.793)"><path className="addTag" d="M80,20.005l-60,60m60,0L20,20" transform="translate(549.501 695.5)"/></g></svg>
+                    <div onClick={() => handleAddTag()} className={styles.addTagField}>
+                      <svg className={styles.addTag} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.414 61.42"><g transform="translate(-568.793 -714.793)"><path className="addTag" d="M80,20.005l-60,60m60,0L20,20" transform="translate(549.501 695.5)"/></g></svg>
+                    </div>
                     <p>
                     <div className={styles.tagsContainer}>
                       {tags && tags.map(tag => {

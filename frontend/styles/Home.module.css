@@ -204,24 +204,38 @@ color: #B1ADB9;
   position: relative;
 }
 
+
+.addTagField {
+  width: 40px;
+  height: 40px;
+  background-color: rgb(214, 214, 214);
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+.addTagField:hover {
+  background-color: rgb(199, 199, 199);;  
+}
+.addTagField:active {
+  background-color: rgb(177, 177, 177);;  
+}
+
 .addTag {
   fill: none; 
   stroke: #8F8A9B;
   stroke-miterlimit: 10;
   stroke-width: 10px; 
   transform: rotate(45deg);
-  width: 15px;
-  height: 15px;
-  position: absolute;
-  top: 18px;
-  right: 20px;
-  transition: 0.2s ease-in-out;
+  width: 10px;
+  height: 10px;
 }
 
-.addTag:hover {
-  stroke: #5a5959;
-  cursor: pointer;
-}
 
 .tagsContainer {
   display: flex;
