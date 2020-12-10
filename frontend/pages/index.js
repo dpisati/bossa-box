@@ -10,7 +10,7 @@ export default function Home() {
   const [searchInput, setSearchInput] = useState("");
   const [searchForTags, setSearchForTags] = useState(false);
 
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
@@ -22,6 +22,10 @@ export default function Home() {
     const res = await fetch("http://localhost:3000/tools");
     const data = await res.json();
     setPosts(data);
+  }
+
+  function handlePostRemoved() {
+    fetchPosts();
   }
 
   async function fetchFilteredPosts() {
@@ -51,20 +55,31 @@ export default function Home() {
     setSearchInput(event);
   };
 
-  function handleSubmit(event) {
-    console.log(`
-      name ${name},
-      link ${link},
-      desc ${description},
-      tags ${tags}
-    `);
+  async function handleSubmit(event) {
     event.preventDefault();
-    console.log("A name was submitted: " + { event });
+
+    if((title.length === 0) || (link.length === 0) || (description.length === 0) || (tags.length === 0)) {
+      return console.log("not true", title, link, description, tags);
+    } else {
+      const addTool = await fetch('http://localhost:3000/tools', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          title,
+          link,
+          description,
+          tags
+        })
+      });
+      console.log(addTool)
+      fetchPosts();
+      handleCloseModal();
+    }
   }
 
   function handleCloseModal() {
     setAddModal(false);
-    setName("");
+    setTitle("");
     setDescription("");
     setLink("");
     setTags([]);
@@ -178,17 +193,19 @@ export default function Home() {
 
         {!posts.length == 0 ? (
           posts.map((post) => {
-            return <Card key={post.id} content={post} />;
+            return <Card key={post.id} content={post} onDelete={handlePostRemoved} />;
           })
         ) : (
           <div className={styles.noPosts}>
-            <Image
-              src="/notFound.png"
-              alt="Not Found"
-              width="370"
-              height="300"
-            />
-            <h2 className={styles.notFound}>Ooops, no posts found...</h2>
+            <div className={styles.noPostsImg}>
+              <Image
+                src="/caveman.gif"
+                alt="Not Found"
+                width={500}
+                height={400}
+              />
+              <h2 className={styles.notFound}>Ooops, no posts found...</h2>
+            </div>
           </div>
         )}
 
@@ -197,7 +214,33 @@ export default function Home() {
             <form onSubmit={handleSubmit}>
               <div className={styles.modalBody}>
                 <div className={styles.modalHeader}>
+                  <div className={styles.modalHeaderAdd}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="61.414"
+                      height="61.42"
+                      viewBox="0 0 61.414 61.42"
+                      style={{
+                        fill: "none",
+                        stroke: "#170C3A",
+                        strokeMiterlimit: 10,
+                        strokeWidth: "10px",
+                        transform: "rotate(45deg)",
+                        width: "15px",
+                        height: "15px",
+                      }}
+                    >
+                    <defs></defs>
+                    <g transform="translate(-568.793 -714.793)">
+                      <path
+                        className="a"
+                        d="M80,20.005l-60,60m60,0L20,20"
+                        transform="translate(549.501 695.5)"
+                      />
+                    </g>
+                  </svg>
                   <h3 className={styles.modalTitle}>Add a new tool</h3>
+                  </div>
                   <svg
                     className={styles.closeModal}
                     onClick={handleCloseModal}
@@ -221,13 +264,13 @@ export default function Home() {
                   </svg>
                 </div>
                 <div className={styles.modalContent}>
-                  <label className={styles.modalLabel}>Tool Name</label>
+                  <label className={styles.modalLabel}>Tool Title</label>
                   <input
                     className={styles.modalInput}
                     type="text"
-                    value={name}
+                    value={title}
                     onChange={(e) => {
-                      setName(e.target.value);
+                      setTitle(e.target.value);
                     }}
                   />
                   <label className={styles.modalLabel}>Link</label>
