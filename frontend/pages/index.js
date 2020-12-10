@@ -1,11 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../styles/Home.module.css";
 
 import Card from "../components/Card";
 
 export default function Home() {
+  const tagInput = useRef(null);
   const [posts, setPosts] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchForTags, setSearchForTags] = useState(false);
@@ -17,6 +18,10 @@ export default function Home() {
   const [tags, setTags] = useState([]);
 
   const [addModal, setAddModal] = useState(false);
+
+  function handleFocus() {
+    tagInput.current.focus();
+  }
 
   async function fetchPosts() {
     const res = await fetch("http://localhost:3000/tools");
@@ -45,43 +50,67 @@ export default function Home() {
   function handleAddTag() {
     const trimTag = tag.trim();
     if (trimTag) {
+      handleFocus();
       setTags([...tags, trimTag]);
       setTag("");
     }
-    return;
+    return handleFocus();
   }
 
   const handleOnChange = (event) => {
     setSearchInput(event);
   };
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-    if((title.length === 0) || (link.length === 0) || (description.length === 0) || (tags.length === 0)) {
-      return console.log("not true", title, link, description, tags);
-    } else {
-      const addTool = await fetch('http://localhost:3000/tools', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          title,
-          link,
-          description,
-          tags
-        })
-      });
-      console.log(addTool)
-      fetchPosts();
-      handleCloseModal();
-    }
+    const addTool = await fetch("http://localhost:3000/tools", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        link,
+        description,
+        tags,
+      }),
+    });
+    console.log(addTool);
+    fetchPosts();
+    handleCloseModal();
   }
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+
+  //   if (
+  //     title.length === 0 ||
+  //     link.length === 0 ||
+  //     description.length === 0 ||
+  //     tags.length === 0
+  //   ) {
+  //     return console.log("not true", title, link, description, tags);
+  //   } else {
+  //     const addTool = await fetch("http://localhost:3000/tools", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         title,
+  //         link,
+  //         description,
+  //         tags,
+  //       }),
+  //     });
+  //     console.log(addTool);
+  //     fetchPosts();
+  //     handleCloseModal();
+  //   }
+  // }
 
   function handleCloseModal() {
     setAddModal(false);
     setTitle("");
     setDescription("");
     setLink("");
+    setTag("");
     setTags([]);
   }
 
@@ -193,7 +222,9 @@ export default function Home() {
 
         {!posts.length == 0 ? (
           posts.map((post) => {
-            return <Card key={post.id} content={post} onDelete={handlePostRemoved} />;
+            return (
+              <Card key={post.id} content={post} onDelete={handlePostRemoved} />
+            );
           })
         ) : (
           <div className={styles.noPosts}>
@@ -211,7 +242,12 @@ export default function Home() {
 
         {addModal && (
           <div className={styles.modal}>
-            <form onSubmit={handleSubmit}>
+            <form
+              onSubmit={handleSubmit}
+              onKeyPress={(e) => {
+                e.key === "Enter" && e.preventDefault();
+              }}
+            >
               <div className={styles.modalBody}>
                 <div className={styles.modalHeader}>
                   <div className={styles.modalHeaderAdd}>
@@ -230,16 +266,16 @@ export default function Home() {
                         height: "15px",
                       }}
                     >
-                    <defs></defs>
-                    <g transform="translate(-568.793 -714.793)">
-                      <path
-                        className="a"
-                        d="M80,20.005l-60,60m60,0L20,20"
-                        transform="translate(549.501 695.5)"
-                      />
-                    </g>
-                  </svg>
-                  <h3 className={styles.modalTitle}>Add a new tool</h3>
+                      <defs></defs>
+                      <g transform="translate(-568.793 -714.793)">
+                        <path
+                          className="a"
+                          d="M80,20.005l-60,60m60,0L20,20"
+                          transform="translate(549.501 695.5)"
+                        />
+                      </g>
+                    </svg>
+                    <h3 className={styles.modalTitle}>Add a new tool</h3>
                   </div>
                   <svg
                     className={styles.closeModal}
@@ -294,9 +330,14 @@ export default function Home() {
                   <label className={styles.modalLabel}>Tags</label>
                   <div className={styles.addTags}>
                     <input
+                      ref={tagInput}
                       className={styles.modalInput}
                       type="text"
                       value={tag}
+                      onKeyPress={(e) => {
+                        e.key === "Enter" &&
+                          (e.preventDefault(), handleAddTag());
+                      }}
                       onChange={(e) => {
                         setTag(e.target.value);
                       }}
