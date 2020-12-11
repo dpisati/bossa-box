@@ -13,7 +13,6 @@ export default function Modal({ setAddModal, fetchPosts }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     const addTool = await fetch("http://localhost:3000/tools", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -24,7 +23,6 @@ export default function Modal({ setAddModal, fetchPosts }) {
         tags,
       }),
     });
-    console.log(addTool);
     fetchPosts();
     handleCloseModal();
   }
@@ -49,7 +47,6 @@ export default function Modal({ setAddModal, fetchPosts }) {
   }
 
   function handleRemoveTag(e) {
-    console.log(e);
     const result = tags.filter((word) => word != e);
     setTags(result);
   }

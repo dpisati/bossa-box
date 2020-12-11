@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+
 import styles from "../styles/Home.module.css";
 
 import Card from "../components/Card";
@@ -19,10 +20,6 @@ export default function Home() {
     setPosts(data);
   }
 
-  function handlePostRemoved() {
-    fetchPosts();
-  }
-
   async function fetchFilteredPosts() {
     if (!searchForTags) {
       const res = await fetch(`http://localhost:3000/tools?q=${searchInput}`);
@@ -36,10 +33,6 @@ export default function Home() {
       setPosts(data);
     }
   }
-
-  const handleOnChange = (event) => {
-    setSearchInput(event);
-  };
 
   useEffect(() => {
     const timeoutId = setTimeout(() => fetchFilteredPosts(), 500);
@@ -99,7 +92,7 @@ export default function Home() {
               type="text"
               placeholder="search"
               value={searchInput}
-              onChange={(e) => handleOnChange(e.target.value)}
+              onChange={(e) => setSearchInput(e.target.value)}
             ></input>
             <input
               type="checkbox"
@@ -143,9 +136,7 @@ export default function Home() {
 
         {!posts.length == 0 ? (
           posts.map((post) => {
-            return (
-              <Card key={post.id} content={post} onDelete={handlePostRemoved} />
-            );
+            return <Card key={post.id} content={post} onDelete={fetchPosts} />;
           })
         ) : (
           <div className={styles.noPosts}>
