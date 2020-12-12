@@ -51,6 +51,16 @@
         "such"
       ],
       "id": 5
+    },
+    {
+      "title": "This is a new tag",
+      "link": "asdasdsad",
+      "description": "New tag deswcription",
+      "tags": [
+        "new",
+        "tag"
+      ],
+      "id": 6
     }
   ],
   "initial-tools": [

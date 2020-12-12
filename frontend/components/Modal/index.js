@@ -1,9 +1,13 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import styles from "./Modal.module.css";
 
 export default function Modal({ setAddModal, fetchPosts }) {
   const tagInput = useRef(null);
+
+  let initialErrors = {};
+
+  const [errors, setErrors] = useState(initialErrors);
 
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
@@ -11,20 +15,44 @@ export default function Modal({ setAddModal, fetchPosts }) {
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
 
+
+  async function validateForm() {
+    let initialErrors = {};
+
+    if(title.length === 0) {
+      initialErrors.title = "Title is required"
+    } 
+    if(link.length === 0) {
+      initialErrors.link = "Link is required"
+    } 
+    if(description.length === 0) {
+      initialErrors.description = "Description is required"
+    } 
+    if(tags.length === 0) {
+      initialErrors.tags = "A Tag is required"
+    }
+    setErrors(initialErrors);
+
+    if(Object.keys(initialErrors).length === 0) {
+      await fetch("http://localhost:3000/tools", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          link,
+          description,
+          tags,
+        }),
+      });
+      fetchPosts();
+      handleCloseModal(); 
+    }
+  }
+
+  
   async function handleSubmit(e) {
     e.preventDefault();
-    const addTool = await fetch("http://localhost:3000/tools", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        link,
-        description,
-        tags,
-      }),
-    });
-    fetchPosts();
-    handleCloseModal();
+    await validateForm();
   }
 
   function handleCloseModal() {
@@ -54,6 +82,7 @@ export default function Modal({ setAddModal, fetchPosts }) {
   function handleFocus() {
     tagInput.current.focus();
   }
+
 
   return (
     <div className={styles.modal}>
@@ -124,6 +153,9 @@ export default function Modal({ setAddModal, fetchPosts }) {
                 setTitle(e.target.value);
               }}
             />
+
+            { errors.title && <p>{errors.title}</p>}
+
             <label className={styles.modalLabel}>Link</label>
             <input
               className={styles.modalInput}
@@ -133,6 +165,9 @@ export default function Modal({ setAddModal, fetchPosts }) {
                 setLink(e.target.value);
               }}
             />
+
+            { errors.link && <p>{errors.link}</p>}
+
             <label className={styles.modalLabel}>Description</label>
             <textarea
               className={styles.modalInputTextArea}
@@ -142,6 +177,9 @@ export default function Modal({ setAddModal, fetchPosts }) {
                 setDescription(e.target.value);
               }}
             />
+            
+            { errors.description && <p>{errors.description}</p>}
+
             <label className={styles.modalLabel}>Tags</label>
             <div className={styles.addTags}>
               <input
@@ -156,6 +194,9 @@ export default function Modal({ setAddModal, fetchPosts }) {
                   setTag(e.target.value);
                 }}
               />
+
+              { errors.tags && <p>{errors.tags}</p>}
+
               <div
                 onClick={() => handleAddTag()}
                 className={styles.addTagField}
@@ -174,6 +215,7 @@ export default function Modal({ setAddModal, fetchPosts }) {
                   </g>
                 </svg>
               </div>
+
               <p>
                 <div className={styles.tagsContainer}>
                   {tags &&
