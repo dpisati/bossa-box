@@ -6,13 +6,19 @@ import styles from "../styles/Home.module.css";
 
 import Card from "../components/Card";
 import Modal from "../components/Modal";
+import ConfirmationModal from "../components/ConfirmationModal";
+
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchForTags, setSearchForTags] = useState(false);
 
+  const [toolSelected, setToolSelected] = useState({});
+
   const [addModal, setAddModal] = useState(false);
+  const [addToolModal, setAddToolModal] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(false);
 
   async function fetchPosts() {
     const res = await fetch("http://localhost:3000/tools");
@@ -32,6 +38,17 @@ export default function Home() {
       const data = await res.json();
       setPosts(data);
     }
+  }
+
+  function handleAddPost() {
+    setAddModal(true);
+    setAddToolModal(true);
+  }
+
+  function handleSelectPost(content) {
+    setToolSelected(content)
+    setAddModal(true);
+    setConfirmationModal(true);
   }
 
   useEffect(() => {
@@ -104,7 +121,7 @@ export default function Home() {
 
           <button
             className={styles.addButton}
-            onClick={() => setAddModal(true)}
+            onClick={handleAddPost}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +153,7 @@ export default function Home() {
 
         {!posts.length == 0 ? (
           posts.map((post) => {
-            return <Card key={post.id} content={post} onDelete={fetchPosts} />;
+            return <Card key={post.id} content={post} onDelete={fetchPosts} setToolSelected={handleSelectPost} />;
           })
         ) : (
           <div className={styles.noPosts}>
@@ -152,9 +169,15 @@ export default function Home() {
           </div>
         )}
 
-        {addModal && (
-          <Modal setAddModal={setAddModal} fetchPosts={fetchPosts} />
+        { addToolModal && (
+          <Modal setAddModal={setAddToolModal} fetchPosts={fetchPosts} />
         )}
+
+
+        { toolSelected && confirmationModal && (
+          <ConfirmationModal setAddModal={setConfirmationModal} tool={toolSelected} fetchPosts={fetchPosts}/>
+        )}
+
       </main>
     </div>
   );
