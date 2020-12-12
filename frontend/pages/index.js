@@ -45,6 +45,12 @@ export default function Home() {
     setAddToolModal(true);
   }
 
+  function handleCloseModal() {
+    setAddModal(false);
+    setAddToolModal(false);
+    setConfirmationModal(false);
+  }
+
   function handleSelectPost(content) {
     setToolSelected(content)
     setAddModal(true);
@@ -170,12 +176,12 @@ export default function Home() {
         )}
 
         { addToolModal && (
-          <Modal setAddModal={setAddToolModal} fetchPosts={fetchPosts} />
+          <Modal setAddModal={handleCloseModal} fetchPosts={fetchPosts} />
         )}
 
 
         { toolSelected && confirmationModal && (
-          <ConfirmationModal setAddModal={setConfirmationModal} tool={toolSelected} fetchPosts={fetchPosts}/>
+          <ConfirmationModal setAddModal={handleCloseModal} tool={toolSelected} fetchPosts={fetchPosts}/>
         )}
 
       </main>

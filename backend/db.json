@@ -40,6 +40,32 @@
         "https",
         "localhost"
       ]
+    },
+    {
+      "title": "Framer Motion",
+      "link": "https://www.framer.com/motion/",
+      "description": "A production-ready motion library for React. Utilize the power behind Framer, the best prototyping tool for teams. Proudly open source.",
+      "tags": [
+        "framer",
+        "motion",
+        "framermotion",
+        "animation",
+        "css"
+      ],
+      "id": 4
+    },
+    {
+      "title": "Next.js",
+      "link": "https://nextjs.org/",
+      "description": "Next.js gives you the best developer experience with all the features you need for production: hybrid static & server rendering, TypeScript support, smart bundling, route pre-fetching, and more. No config needed.",
+      "tags": [
+        "next",
+        "SSR",
+        "SEO",
+        "server-side",
+        "rendering"
+      ],
+      "id": 6
     }
   ],
   "initial-tools": [
