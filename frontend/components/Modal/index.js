@@ -144,9 +144,9 @@ export default function Modal({ setAddModal, fetchPosts }) {
             </svg>
           </div>
           <div className={styles.modalContent}>
-            <label className={styles.modalLabel}>Tool Title</label>
+            <label className={styles.modalLabel}>Tool Title <span className={`${ errors.title && styles.span}`}>*</span></label>
             <input
-              className={styles.modalInput}
+              className={`${styles.modalInput} ${errors.title && styles.modalInputError}`}
               type="text"
               value={title}
               onChange={(e) => {
@@ -154,11 +154,11 @@ export default function Modal({ setAddModal, fetchPosts }) {
               }}
             />
 
-            { errors.title && <p>{errors.title}</p>}
+            { errors.title && <p className={styles.modalErrorMessage}>{errors.title}</p>}
 
-            <label className={styles.modalLabel}>Link</label>
+            <label className={styles.modalLabel}>Link <span className={`${ errors.link && styles.span}`}>*</span></label>
             <input
-              className={styles.modalInput}
+              className={`${styles.modalInput} ${errors.link && styles.modalInputError}`}
               type="text"
               value={link}
               onChange={(e) => {
@@ -166,11 +166,11 @@ export default function Modal({ setAddModal, fetchPosts }) {
               }}
             />
 
-            { errors.link && <p>{errors.link}</p>}
+            { errors.link && <p className={styles.modalErrorMessage}>{errors.link}</p>}
 
-            <label className={styles.modalLabel}>Description</label>
+            <label className={styles.modalLabel}>Description <span className={`${ errors.description && styles.span}`}>*</span></label>
             <textarea
-              className={styles.modalInputTextArea}
+              className={`${styles.modalInputTextArea} ${errors.description && styles.modalInputTextAreaError}`}
               type="text"
               value={description}
               onChange={(e) => {
@@ -178,13 +178,13 @@ export default function Modal({ setAddModal, fetchPosts }) {
               }}
             />
             
-            { errors.description && <p>{errors.description}</p>}
+            { errors.description && <p className={styles.modalErrorMessage}>{errors.description}</p>}
 
-            <label className={styles.modalLabel}>Tags</label>
+            <label className={styles.modalLabel}>Tags <span className={`${ errors.tags && styles.span}`}>*</span></label>
             <div className={styles.addTags}>
               <input
                 ref={tagInput}
-                className={styles.modalInput}
+                className={`${styles.modalInput} ${errors.tags && styles.modalInputError}`}
                 type="text"
                 value={tag}
                 onKeyPress={(e) => {
@@ -195,7 +195,7 @@ export default function Modal({ setAddModal, fetchPosts }) {
                 }}
               />
 
-              { errors.tags && <p>{errors.tags}</p>}
+              { errors.tags && <p className={styles.modalErrorMessage}>{errors.tags}</p>}
 
               <div
                 onClick={() => handleAddTag()}
