@@ -150,7 +150,8 @@ export default function Modal({ setAddModal, fetchPosts }) {
               type="text"
               value={title}
               onChange={(e) => {
-                setTitle(e.target.value);
+                setTitle(e.target.value)
+                setErrors({...errors, title: ""});
               }}
             />
 
@@ -163,6 +164,7 @@ export default function Modal({ setAddModal, fetchPosts }) {
               value={link}
               onChange={(e) => {
                 setLink(e.target.value);
+                setErrors({...errors, link: ""});
               }}
             />
 
@@ -175,6 +177,7 @@ export default function Modal({ setAddModal, fetchPosts }) {
               value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
+                setErrors({...errors, description: ""});
               }}
             />
             
@@ -192,6 +195,7 @@ export default function Modal({ setAddModal, fetchPosts }) {
                 }}
                 onChange={(e) => {
                   setTag(e.target.value);
+                  setErrors({...errors, tags: ""})
                 }}
               />
 
